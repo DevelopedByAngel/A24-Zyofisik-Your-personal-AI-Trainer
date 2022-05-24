@@ -1,0 +1,245 @@
+body {
+  background: var(--light);
+}
+#heading {
+  padding: 1.5rem;
+  font-size: 3rem;
+  font-family: "Montserrat", sans-serif;
+  text-decoration: underline;
+  margin-left: 5rem;
+  color: var(--text);
+}
+.videos {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  justify-content: space-between;
+  min-height: 70vh;
+  max-height: 90vh;
+  border: 0.2rem solid white;
+  box-sizing: border-box;
+  background: white;
+  overflow: hidden;
+}
+.videos * {
+  transition: all 0.5s linear;
+}
+.videos button {
+  cursor: pointer;
+}
+.videos #info {
+  width: 10vw;
+  background: var(--secondary);
+  overflow: hidden;
+}
+.videos #info #hidden {
+  display: none;
+}
+.videos #info .instructions {
+  width: calc(50vw - 3rem);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  filter: brightness(0.9) blur(2px);
+}
+.videos #info .instructions .desc h2 {
+  font-size: 2rem;
+  font-family: "Montserrat", sans-serif;
+}
+.videos #info .instructions .desc span::before {
+  content: "#";
+  font-weight: bolder;
+  margin-right: 0.5rem;
+}
+.videos #info .instructions .desc span {
+  display: block;
+  margin-top: 0.5rem;
+  text-align: justify;
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: lighter;
+}
+.videos #info .instructions .next-button {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.videos #info .instructions .next-button .next {
+  height: 2.5rem;
+  border: 1px solid white;
+  border-radius: 2.5rem;
+  overflow: visible;
+  background: var(--contrast);
+  font-size: 1.5rem;
+  font-family: "Josefin Sans", sans-serif;
+  color: white;
+  box-shadow: 0px 5px 2px 0px rgba(230, 57, 70, 0.7);
+  transition: all 0.01s linear;
+}
+.videos #info .instructions .next-button .next:hover {
+  box-shadow: 0px 2px 2px 0px rgba(230, 57, 70, 0.7);
+}
+.videos #info .instructions .next-button .next:active {
+  box-shadow: 0px 0px 2px 0px rgba(230, 57, 70, 0.7);
+}
+.videos #info .instructions .next-button .next span {
+  width: 7rem;
+}
+.videos #info .controls {
+  width: calc(50vw - 3rem);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.videos .view {
+  width: 90vw;
+  background: rgb(27, 27, 27);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: -10px 0px 20px 0px rgba(27, 27, 27, 0.8);
+  border: 0.5rem solid transparent;
+
+  border-left: 0.5rem solid black;
+}
+.videos .view #landmark {
+  width: 48vw;
+  height: 24vw;
+  background: black;
+  overflow: hidden;
+  color: white;
+  font-size: 3rem;
+}
+.videos:hover .view {
+  width: 50vw;
+  box-shadow: 0px 0px 0px 0px transparent;
+}
+.videos:hover #info {
+  width: 50vw;
+}
+.videos:hover #info .instructions {
+  filter: brightness(1) blur(0px);
+}
+.videos #info .controls .buttons {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+  margin: 1rem;
+}
+
+.videos #info .controls .buttons button {
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  width: 10rem;
+  border: 0.2rem solid white;
+  color: white;
+  border-radius: 2rem;
+  text-align: center;
+  transition: all 0.01s linear;
+  box-shadow: inset 2px 2px 0px 0px rgb(0 0 0 / 20%),
+    5px 5px 0px 0px rgb(0 0 0 / 20%);
+}
+.videos #info .controls .buttons button:hover {
+  box-shadow: inset 5px 5px 0px 0px rgb(0 0 0 / 20%),
+    3px 3px 0px 0px rgb(0 0 0 / 20%);
+}
+.videos #info .controls .buttons button:active {
+  box-shadow: inset 5px 5px 0px 0px rgb(0 0 0 / 20%),
+    1px 1px 0px 0px rgb(0 0 0 / 20%);
+}
+.videos #info .controls .buttons #start-button {
+  background-color: var(--contrast);
+}
+.videos #info .controls .buttons #stop-button {
+  background-color: var(--primary);
+}
+.videos #info .controls .buttons .disabled {
+  filter: brightness(0.8);
+}
+.videos #info .controls .count {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.videos #info .controls .score-div {
+  font-size: 4rem;
+  font-weight: bolder;
+  color: var(--text);
+  margin: 2rem 0rem;
+}
+.videos #info .controls .next-button {
+  position: relative;
+  top: 3rem;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: normal;
+  align-self: self-start;
+}
+.videos #info .controls .next-button .next {
+  height: 2.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid white;
+  border-radius: 2.5rem;
+  overflow: visible;
+  background: var(--primary);
+  font-size: 1rem;
+  font-family: "Josefin Sans", sans-serif;
+  color: white;
+  box-shadow: 0px 5px 2px 0px var(--light);
+  transition: all 0.01s linear;
+  margin-bottom: 0.5rem;
+}
+.videos #info .controls .next-button .next:hover {
+  box-shadow: 0px 2px 2px 0px var(--light);
+}
+.videos #info .controls .next-button .next:active {
+  box-shadow: 0px 0px 2px 0px var(--light);
+}
+
+.videos .view {
+  position: relative;
+}
+.videos .view img {
+  position: relative;
+  z-index: 4;
+}
+.videos .view #full {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 1.2rem;
+  background: var(--light);
+  border: 2px solid white;
+  z-index: 7;
+  padding: 0.25rem;
+  margin: 0.1rem;
+}
+.videos .view img.fullscreen {
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+.back svg {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  margin: 1.5rem;
+}
+.videos h2 {
+  display: inline;
+}
+.videos #tutorial {
+  display: inline;
+  margin: 0.5rem;
+  opacity: 0.7;
+  font-style: italic;
+  color: var(--primary);
+}

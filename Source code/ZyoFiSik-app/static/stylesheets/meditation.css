@@ -1,0 +1,216 @@
+body {
+  font-family: "Josefin Sans", sans-serif;
+  width: 100vw;
+  overflow-x: hidden;
+  background: var(--background);
+}
+.meditation .heading {
+  font-size: 2rem;
+  font-family: "Montserrat", sans-serif;
+  text-decoration: underline;
+  color: white;
+  background: var(--dark);
+  width: 100vw;
+  height: 10vh;
+  padding: 2rem 0rem 1rem 2rem;
+  margin-left: 5rem;
+}
+.back {
+  height: 18vh;
+  position: absolute;
+  width: 5rem;
+  background: var(--dark);
+}
+.meditation .menu {
+  width: 100vw;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Josefin Sans", sans-serif;
+}
+.meditation .menu input {
+  font-size: 2rem;
+  border: 0.25rem solid var(--dark);
+  width: 20vw;
+  padding: 0.25rem;
+  border-bottom-left-radius: 0.5rem;
+  border-top-left-radius: 0.5rem;
+}
+.meditation .menu .start,
+.meditation .menu .stop {
+  font-size: 2rem;
+  width: 20vw;
+  padding: 0.25rem;
+  border: 1px solid var(--dark);
+  background-color: var(--light);
+  color: var(--text);
+  border: 0.25rem solid var(--dark);
+  border-left: 0rem;
+  border-bottom-right-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  text-align: center;
+  cursor: pointer;
+}
+.meditation .menu .stop {
+  display: none;
+}
+
+.meditation .top-menu .stop {
+  display: none;
+}
+.meditation .top-menu {
+  position: absolute;
+  top: 50vh;
+  width: 90vw;
+  height: 2vh;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-family: "Josefin Sans", sans-serif;
+  z-index: 3;
+}
+.meditation .top-menu input {
+  font-size: 1rem;
+  border: 0.25rem solid var(--dark);
+  width: 10vw;
+  padding: 0.25rem;
+  border-bottom-left-radius: 0.5rem;
+  border-top-left-radius: 0.5rem;
+  cursor: not-allowed;
+  filter: brightness(0.8);
+}
+.meditation .top-menu .start,
+.meditation .top-menu .stop {
+  font-size: 1rem;
+  width: 10vw;
+  padding: 0.25rem;
+  border: 1px solid var(--dark);
+  background-color: var(--light);
+  color: var(--text);
+  border: 0.25rem solid var(--dark);
+  border-left: 0rem;
+  border-bottom-right-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  text-align: center;
+}
+#audioFile {
+  display: none;
+}
+
+.float {
+  display: none;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.float .image img {
+  margin-top: 5vh;
+  width: 27vw;
+  position: relative;
+  animation: float 4s linear 0s infinite;
+}
+@keyframes float {
+  from {
+    top: 0vh;
+  }
+  45% {
+    top: 4vh;
+  }
+  55% {
+    top: 4vh;
+  }
+  to {
+    top: 0vh;
+  }
+}
+.float .shadow {
+  margin-top: 5vh;
+}
+.float .shadow span {
+  width: 25vw;
+  height: 3vh;
+  background: rgba(0, 0, 0, 0.3);
+  border: 0px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.3);
+  animation: shadow 4s linear 0s infinite;
+}
+@keyframes shadow {
+  from {
+    width: 20vw;
+    height: 2.5vh;
+  }
+  45% {
+    width: 25vw;
+    height: 3vh;
+  }
+  55% {
+    width: 25vw;
+    height: 3vh;
+  }
+  to {
+    width: 20vw;
+    height: 2.5vh;
+  }
+}
+
+.counter {
+  position: fixed;
+  top: 45vh;
+  left: 5rem;
+  width: 10rem;
+  height: 5rem;
+  background: var(--dark);
+  overflow: hidden;
+  padding: 10px;
+  text-align: center;
+  border: 2px solid var(--dark);
+  border-radius: 0.5rem;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+.counter span {
+  font-size: 3rem;
+  margin: 0.5rem;
+  position: relative;
+  text-align: center;
+  color: var(--primary);
+  text-shadow: 2px 2px 5px var(--secondary), 2px 2px 0px var(--dark);
+  font-family: "Montserrat", sans-serif;
+}
+.counter .now {
+  animation: now 1.35s cubic-bezier(0.83, 0.42, 0.66, 1.41) 0s infinite forwards;
+}
+@keyframes now {
+  0% {
+    bottom: 0rem;
+    opacity: 1;
+  }
+  25% {
+    bottom: 0rem;
+    opacity: 1;
+  }
+  35% {
+    bottom: 4rem;
+    opacity: 0;
+  }
+  65% {
+    bottom: -4rem;
+    opacity: 0;
+  }
+  90% {
+    bottom: -4rem;
+    opacity: 0;
+  }
+  100% {
+    bottom: 0rem;
+    opacity: 1;
+  }
+}

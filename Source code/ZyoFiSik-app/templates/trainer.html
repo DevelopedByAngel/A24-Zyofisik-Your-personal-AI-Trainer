@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ZyoFiSik</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='stylesheets/root.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='stylesheets/trainer.css')}}"
+    />
+  </head>
+  <body>
+    <a href="/exercise"
+      ><span class="back"
+        ><svg width="70" height="50">
+          <path
+            d="M0 25 L25 0 L25 50 M25 30 C25,30 60,25 55,50 C55,50 70,20 25,20"
+            style="fill: var(--text); stroke: var(--text); stroke-width: 1.5px"
+          ></path></svg></span
+    ></a>
+    <h2 id="heading"></h2>
+    <h2 id="error" class="error" style="display: none"></h2>
+    <video id="video" style="display: none" autoplay></video>
+    <div class="videos">
+      <div id="info">
+        <div class="instructions">
+          <svg height="200" width="200" id="svg"> </svg>
+          <div class="desc">
+            <h2>Steps to do:</h2><a href="#" id="tutorial" target="_blank">Watch Tutorial</a>
+            <p id="steps"></p>
+          </div>
+          <span class="next-button"
+            ><button class="next" onclick="next();">
+              <span>&emsp;Next &rArr;</span>
+            </button></span
+          >
+        </div>
+        <div class="controls" id="hidden">
+          <div class="buttons">
+            <button onclick="startStreaming();" id="start-button">Start</button>
+            <button onclick="stopStreaming();" id="stop-button">Stop</button>
+          </div>
+          <div class="count">
+            <div class="score-div">
+              <span class="score" id="score" data-count="0" data-stage="down"
+                >0</span
+              >
+            </div>
+          </div>
+          <span class="next-button">
+            <button
+              class="next"
+              onclick="()=>{
+                document.getElementById('score').innerText='0';
+                document.getElementById('score').dataset.count=0;
+                }"
+            >
+              Reset</button
+            ><button class="next" onclick="instructions();">
+              &lArr; {{" "}} Instructions
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="view">
+        <img
+          src="{{ url_for('static',filename='images/detection_default.png')}}"
+          id="landmark"
+          alt="No face detected"
+        />
+        <button id="full" onclick="full();">Full Screen</button>
+      </div>
+    </div>
+    <div style="display: none">
+      <span id="temp">0</span> <span id="angle">0</span>
+    </div>
+  </body>
+  <script
+    type="text/javascript"
+    src="{{ url_for('static',filename='data/instructionsData.js')}}"
+  ></script>
+  <script
+    type="text/javascript"
+    src="{{ url_for('static',filename='scripts/trainer.js')}}"
+  ></script>
+  <script
+    type="text/javascript"
+    src="{{ url_for('static',filename='scripts/jquery.min.js')}}"
+  ></script>
+  <script type="text/javascript">
+    navigator.getUserMedia =
+      navigator.getUserMedia ||
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia ||
+      navigator.msGetUserMedia;
+    var errorElement = document.getElementById("error");
+    var videoElement,
+      webcam,
+      canvas,
+      imgHeight,
+      imgWidth,
+      context,
+      videoRec = false,
+      imageInputData,
+      canFetch = true,
+      interval;
+    window.onload = () => {
+      loadInstructions();
+      canvas = document.createElement("canvas");
+      context = canvas.getContext("2d");
+      if (
+        window.location.href == "https://zyofisik.herokuapp.com/video" ||
+        window.location.href == "http://zyofisik.herokuapp.com/video" ||
+        window.location.href.includes("zyofisik")
+      ) {
+        interval=500;
+      } else {
+        interval = 100;
+      }
+    };
+    const startStreaming = () => {
+      console.log("start");
+      if (navigator.getUserMedia) {
+        navigator.getUserMedia(
+          {
+            video: true,
+            audio: false,
+          },
+          (stream) => {
+            videoRec = true;
+            videoElement = document.getElementById("video");
+            videoElement.srcObject = stream;
+            webcam = stream;
+            iterator = setInterval(sendFrame, interval);
+            document.getElementById("start-button").className = "disabled";
+            document
+              .getElementById("start-button")
+              .setAttribute("disabled", "disabled");
+            document
+              .getElementById("stop-button")
+              .removeAttribute("disabled");
+            document.getElementById("stop-button").className = "";
+            document.getElementById("score").scrollIntoView();
+          },
+          (error) => {
+            errorElement.text = "not Supported";
+          }
+        );
+      } else {
+        errorElement.text = "not Supported";
+      }
+    };
+    const stopStreaming = () => {
+      console.log("stopped");
+      videoRec = false;
+      video.srcObject.getTracks()[0].stop();
+      clearInterval(iterator);
+      canFetch = true;
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      document.getElementById("landmark").src =
+        "{{ url_for('static',filename='images/detection_default.png')}}";
+      document.getElementById("stop-button").className = "disabled";
+      document
+        .getElementById("stop-button")
+        .setAttribute("disabled", "disabled");
+        document
+        .getElementById("start-button")
+        .removeAttribute("disabled");
+      document.getElementById("start-button").className = "";
+    };
+
+    const sendFrame = () => {
+      var scoreElement = document.getElementById("score");
+      var count = scoreElement.dataset.count;
+      var stage = scoreElement.dataset.stage;
+      var exercise = "{{ex}}";
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      imageInputData = canvas.toDataURL("image/png");
+      if (canFetch) {
+        canFetch = false;
+        fetch("/trainerWeb", {
+          headers: { "Content-type": "application/json" },
+          method: "POST",
+          body: JSON.stringify({
+            data: imageInputData,
+            count: count,
+            stage: stage,
+            ex: exercise,
+          }),
+        })
+          .then((response) => response.json())
+          .then((responseData) => {
+            canFetch = true;
+            if (videoRec) {
+              if (responseData.data == undefined) {
+                document.getElementById("landmark").src = imageInputData;
+              } else {
+                document.getElementById("landmark").src =
+                  "data:image/png;base64," + responseData.data;
+              }
+              var count = document.getElementById("score");
+              if (responseData.count != undefined)
+                count.dataset.count = responseData.count;
+              if (responseData.stage != undefined)
+                count.dataset.stage = responseData.stage;
+              count.innerText = count.dataset.count;
+            }
+          })
+          .catch((err) => {
+            canFetch = true;
+            document.getElementById("landmark").src = imageInputData;
+          });
+      } else {
+        console.log("waiting for response .....");
+      }
+    };
+    var iterator;
+  </script>
+</html>

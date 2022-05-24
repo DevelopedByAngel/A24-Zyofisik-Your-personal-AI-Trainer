@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ZyoFiSik</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='stylesheets/root.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='stylesheets/video.css')}}"
+    />
+  </head>
+
+  <body>
+    <a href="/#features"
+      ><span class="back"
+        ><svg width="70" height="50">
+          <path
+            d="M0 25 L25 0 L25 50 M25 30 C25,30 60,25 55,50 C55,50 70,20 25,20"
+            style="fill: var(--text); stroke: var(--text); stroke-width: 1.5px"
+          ></path></svg></span
+    ></a>
+    <h2 id="heading">Yoga Assistant</h2>
+    <div class="buttons">
+      <button onclick="startStreaming();" id="start-button">
+        Start Streaming
+      </button>
+      <button onclick="stopStreaming();" id="stop-button">
+        Stop Streaming
+      </button>
+    </div>
+    <video id="video" style="display: none" autoplay></video>
+    <div class="videos">
+      <img
+        src="{{ url_for('static',filename='images/detection_default.png')}}"
+        id="landmark"
+        alt="No face detected"
+      />
+      <div id="line"></div>
+
+      <div class="info">
+        <div class="poses" id="poses"></div>
+        <p class="pose-container random">
+          <input
+            type="radio"
+            name="pose"
+            value="-1"
+            onchange="changePose(this);"
+          />
+          <span class="pose-name">Random</span>
+        </p>
+        <img
+          id="ref"
+          src="{{ url_for('static',filename='images/yoga.png')}}"
+        />
+        <img
+          id="ref-def"
+          src="{{ url_for('static',filename='images/yoga.png')}}"
+        />
+
+        <a id="tutorial" href="#" target="_blank">Click here for Tutorial</a>
+      </div>
+    </div>
+    <h2 id="error"></h2>
+    <div class="score-div"><span class="score" id="score">0%</span></div>
+  </body>
+  <script
+    type="text/javascript"
+    src="{{ url_for('static',filename='scripts/jquery-3.6.0.min.js')}}"
+  ></script>
+  <script
+    type="text/javascript"
+    src="{{ url_for('static',filename='data/poseData.js')}}"
+  ></script>
+  <script
+    type="text/javascript"
+    src="{{url_for('static',filename='scripts/video.js')}}"
+  ></script>
+
+  <script type="text/javascript">
+    navigator.getUserMedia =
+      navigator.getUserMedia ||
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia ||
+      navigator.msGetUserMedia;
+    var errorElement = document.getElementById("error");
+    var videoElement,
+      webcam,
+      canvas,
+      imgHeight,
+      imgWidth,
+      context,
+      videoRec = false,
+      inputImageData,
+      pose = -1,
+      canFetch = true,
+      fetchUrl,
+      interval;
+    window.onload = () => {
+      canvas = document.createElement("canvas");
+      context = canvas.getContext("2d");
+      loadPoses();
+      if (
+        window.location.href == "https://zyofisik.herokuapp.com/video" ||
+        window.location.href == "http://zyofisik.herokuapp.com/video" ||
+        window.location.href.includes("zyofisik")
+      ) {
+        fetchUrl = "https://still-gorge-08761.herokuapp.com/web";
+        interval=1000;
+      } else {
+        fetchUrl = "http://127.0.0.1:5001/web";
+        interval = 300;
+      }
+    };
+    const startStreaming = () => {
+      if (navigator.getUserMedia) {
+        navigator.getUserMedia(
+          {
+            video: true,
+            audio: false,
+          },
+          (stream) => {
+            videoRec = true;
+            videoElement = document.getElementById("video");
+            videoElement.srcObject = stream;
+            webcam = stream;
+            iterator = setInterval(sendFrame, interval);
+            document.getElementById("start-button").className = "disabled";
+            document.getElementById("stop-button").className = "";
+            document.getElementById("score").scrollIntoView();
+          },
+          (error) => {
+            errorElement.text = "not Supported";
+          }
+        );
+      } else {
+        errorElement.text = "not Supported";
+      }
+    };
+    const stopStreaming = () => {
+      clearInterval(iterator);
+      videoRec = false;
+      video.srcObject.getTracks()[0].stop();
+      canFetch = true;
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      document.getElementById("landmark").src =
+        "{{ url_for('static',filename='images/detection_default.png')}}";
+      document.getElementById("stop-button").className = "disabled";
+      document.getElementById("start-button").className = "";
+      fetch("/closemodel", {
+        headers: { "Content-type": "application/json" },
+        method: "GET",
+      }).then((response) => console.log(response));
+    };
+
+    const sendFrame = () => {
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      inputImageData = canvas.toDataURL("image/png");
+      if (canFetch) {
+        canFetch = false;
+        fetch(fetchUrl, {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({
+            data: inputImageData,
+            pose: pose,
+          }),
+        })
+          .then((response) => response.json())
+          .then((responseData) => {
+            console.log(responseData);
+            canFetch = true;
+            if (videoRec) {
+              if (responseData.data != undefined)
+                document.getElementById("landmark").src =
+                  "data:image/png;base64," + responseData.data;
+              else
+                document.getElementById("landmark").src =
+                  "data:image/" + inputImageData;
+              if (responseData.score != undefined)
+                document.getElementById("score").innerText =
+                  responseData.score + "%";
+              if (responseData.pose != undefined)
+                document.getElementById("error").innerText = responseData.pose;
+            }
+          })
+          .catch((error) => {
+            canFetch = true;
+            document.getElementById("landmark").src =
+              "data:image/" + inputImageData;
+          });
+      } else {
+        console.log("waiting for response .....");
+      }
+    };
+    var tutorialElement = document.getElementById("tutorial");
+    var referenceImage = document.getElementById("ref");
+    var referenceImageDefault = document.getElementById("ref-def");
+    var changePose = (element) => {
+      pose = element.value;
+      if (pose >= 0) {
+        $(tutorialElement).show();
+        $(referenceImage).show();
+        $(referenceImageDefault).hide();
+        $(tutorialElement).attr("href", poseData[pose].url);
+        fetch("/pose", {
+          headers: { "Content-type": "application/json" },
+          method: "POST",
+          body: JSON.stringify({ pose: pose }),
+        })
+          .then((response) => response.json())
+          .then((responseData) => {
+            referenceImage.src = "data:image/png;base64," + responseData.data;
+          })
+          .catch((err) => console.error(err));
+      } else {
+        $(tutorialElement).hide();
+        $(referenceImageDefault).show();
+        $(referenceImage).hide();
+      }
+    };
+    var iterator;
+  </script>
+</html>

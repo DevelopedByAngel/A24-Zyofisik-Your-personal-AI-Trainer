@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ZyoFiSik</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='stylesheets/meditation.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='stylesheets/root.css')}}"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div class="meditation">
+      <a href="/#features"
+        ><span class="back"
+          ><svg width="70" height="50">
+            <path
+              d="M0 25 L25 0 L25 50 M25 30 C25,30 60,25 55,50 C55,50 70,20 25,20"
+              style="
+                fill: var(--background);
+                stroke: var(--background);
+                stroke-width: 1.5px;
+              "
+            ></path></svg></span
+      ></a>
+      <h2 class="heading">Meditation Coaching</h2>
+      <div class="menu">
+        <input
+          required
+          type="number"
+          class="duration"
+          placeholder="Minutes"
+          name="minutes"
+        />
+        <button class="start" value="Start" onclick="meditateStart();">
+          Start
+        </button>
+        <button class="stop" value="Stop" onclick="meditateStop();">
+          Stop
+        </button>
+      </div>
+      <div class="float">
+        <div class="image">
+          <img
+            src="{{ url_for('static',filename='images/float.png')}}"
+          />
+        </div>
+        <div class="shadow">
+          <span></span>
+        </div>
+      </div>
+      <div class="counter">
+        <span class="now" id="now">0</span>
+      </div>
+    </div>
+    <audio id="audioFile" src="" controls autoplay></audio>
+  </body>
+  <script type="text/javascript">
+    var iterator;
+    var secondsCount;
+    var duration = 0;
+    var audio = document.getElementById("audio");
+    var getAudioFile,
+      audioFilePath = 0;
+    const meditateStop = () => {
+      fetch("/meditation_stop", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+      }).then((r) => {
+        document.getElementsByClassName("top-menu")[0].className = "menu";
+        document.getElementsByClassName("float")[0].style.display = "none";
+        document.getElementsByClassName("start")[0].style.display = "block";
+        document.getElementsByClassName("stop")[0].style.display = "none";
+        clearInterval(iterator);
+        clearInterval(getAudioFile);
+        document.getElementsByClassName("counter")[0].style.display = "none";
+        document.getElementsByClassName("now")[0].style.animationName = "";
+      });
+    };
+    const meditateStart = () => {
+      audioFilePath = 0;
+      duration = document.getElementsByName("minutes")[0].value;
+      fetch("/meditation_start", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({ minutes: duration }),
+      })
+        .then((response) => response.text())
+        .then((responseText) => {
+          document.getElementsByClassName("menu")[0].className = "top-menu";
+          document.getElementsByClassName("float")[0].style.display = "flex";
+          document.getElementsByClassName("start")[0].style.display = "none";
+          document.getElementsByClassName("stop")[0].style.display = "block";
+          document.getElementsByClassName("counter")[0].style.display = "flex";
+          document.getElementsByClassName(
+            "now"
+          )[0].style.animationIterationCount = duration * 60;
+          secondsCount = 0;
+          iterator = setInterval(secondsIterator, 1000);
+          getAudioFile = setInterval(() => {
+            fetch("/getAudio", {
+              method: "GET",
+            })
+              .then((response) => response.text())
+              .then((responseText) => {
+                responseText = responseText.trim();
+                if (audioFilePath != responseText && responseText.length != 0) {
+                  audioFilePath = responseText;
+                  document.getElementById("audioFile").src = responseText;
+                }
+              });
+          }, 500);
+        });
+    };
+    const secondsIterator = () => {
+      document.getElementById("now").innerText = secondsCount;
+      secondsCount = secondsCount + 1;
+      if (secondsCount > duration * 60) clearInterval(iterator);
+    };
+  </script>
+</html>

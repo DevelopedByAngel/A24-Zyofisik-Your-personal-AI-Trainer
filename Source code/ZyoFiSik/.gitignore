@@ -1,0 +1,4 @@
+/sample
+/env/**
+/newenv/**
+/modules/__pycache__/**

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ZyoFiSik</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static',filename='stylesheets/root.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static',filename='stylesheets/exercise.css')}}"
+    />
+  </head>
+  <body>
+    <div class="exercise-main">
+      <a href="/#features"
+        ><span class="back"
+          ><svg width="70" height="50">
+            <path
+              d="M0 25 L25 0 L25 50 M25 30 C25,30 60,25 55,50 C55,50 70,20 25,20"
+              style="
+                fill: var(--background);
+                stroke: var(--background);
+                stroke-width: 1.5px;
+              "
+            ></path></svg></span
+      ></a>
+      <div class="header">
+        <div class="heading">Exercise Trainer</div>
+        <form id="filter-form">
+          <input type="text" id="filter" list="exercise-names" />
+          <img
+            id="after"
+            src="{{ url_for('static',filename='images/detection_default.png')}}"
+          />
+          <datalist id="exercise-names">
+            <option value="Waiter Curl"></option>
+            <option value="Dumbbell curl"></option>
+            <option value="Hammer Curl"></option>
+            <option value="Push-ups"></option>
+            <option value="Squats"></option>
+          </datalist>
+        </form>
+      </div>
+      <div class="exercise-menu">
+        <div class="column1 column"></div>
+        <div class="column2 column"></div>
+        <div class="column3 column"></div>
+      </div>
+    </div>
+  </body>
+  <script
+    type="text/javascript"
+    src="{{ url_for('static',filename='data/exerciseData.js')}}"
+  ></script>
+  <script
+    type="text/javascript"
+    src="{{ url_for('static',filename='scripts/exercise.js')}}"
+  ></script>
+</html>

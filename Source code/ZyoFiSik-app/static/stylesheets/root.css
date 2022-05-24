@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&family=Lora:ital,wght@1,600&display=swap");
+
+:root {
+  --primary: #457b9d;
+  --secondary: #f1faee;
+  --background: #f1faee;
+  --dark: #1d3557;
+  --light: #a8dadc;
+  --contrast: #e63946;
+  --text: #1d3557;
+}
+* {
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  transition: all 0.25s linear;
+}
+body * :not(script) {
+  display: block;
+  color: var(--text);
+  text-align: justify;
+}
+.back svg {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  margin: 1.5rem;
+}

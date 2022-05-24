@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ZyoFiSik</title>
+    <link
+      rel="shortcut icon"
+      href="{{url_for('static',filename='images/favicon.ico')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='stylesheets/root.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='stylesheets/index.css')}}"
+    />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="utf-8" />
+    <meta
+      name="keywords"
+      content="Zyofisik Artificial intelligence AI trainer"
+    />
+    <meta name="title" content="ZyoFiSik" />
+    <meta name="description" content="ZyoFiSik - Your Personal AI trainer" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="ZyoFiSik" />
+    <meta property="og:url" content="http://zyofisik.herokuapp.com" />
+    <meta
+      property="og:image"
+      itemprop="image"
+      content="http://zyofisik.herokuapp.com/static/images/zyofisik.png"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://zyofisik.herokuapp.com/static/images/zyofisik.png"
+    />
+    <meta property="og:image:type" content="image/ico" />
+    <meta property="og:image:width" content="256" />
+    <meta property="og:image:height" content="256" />
+    <meta property="og:image:alt" content="ZyoFiSik" />
+    <meta
+      name="google-site-verification"
+      content="etWfL5mkxBAkLaAYlz1MR3ZSaz5AWbEgFnfmAdyQ_SQ"
+    />
+  </head>
+  <body>
+    <h1 id="mobile-view">
+      Please view on a larger screen(Not supported for mobile view)
+    </h1>
+    <div class="intro">
+      <div class="logo-div">
+        <img
+          src="{{ url_for('static',filename='images/notitle.png')}}"
+          class="logo"
+        />
+      </div>
+      <div class="about-cover">
+        <div class="about-div">
+          <p class="title">
+            <span class="name"
+              ><span style="color: var(--contrast); display: inline">Zyo</span
+              >FiSik</span
+            >
+            <span class="phrase">Your Personal AI Trainer</span>
+          </p>
+          <p class="about">
+            Yoga assistant to assist in 80+ yoga routines, an Exercise trainer
+            to act as a partner for your daily exercises, and a meditation coach
+            to guide you through a peaceful meditation session all in a single
+            place.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="features" id="features">
+      <p class="heading">Features</p>
+      <div class="feature-list">
+        <div class="feature">
+          <a href="/video"
+            ><img
+              src="{{ url_for('static',filename='images/yoga.png')}}"
+          /></a>
+          <p class="about-feature-div">
+            <span class="title-feature">Yoga Assistant</span>
+          </p>
+        </div>
+        <div class="feature">
+          <a href="/exercise"
+            ><img
+              src="{{ url_for('static',filename='images/exercise.png')}}"
+          /></a>
+          <p class="about-feature-div">
+            <span class="title-feature">Exercise Trainer</span>
+          </p>
+        </div>
+        <div class="feature">
+          <a href="/meditation"
+            ><img
+              src="{{ url_for('static',filename='images/meditation.png')}}"
+          /></a>
+          <p class="about-feature-div">
+            <span class="title-feature">Meditation Coach</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="application/ld+json">
+    {
+      "@context": "http://www.schema.org",
+      "@type": "Website",
+      "name": "ZyoFiSik",
+      "alternateName": "Zyofisik",
+      "url": "http://zyofisik.herokuapp.com"
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "http://www.schema.org",
+      "@type": "Project",
+      "url": "http://zyofisik.herokuapp.com/",
+      "contactPoint": {
+        "email": "zyofisikacc@gmail.com",
+        "productSupported": "Zyofisik"
+      },
+      "email": "zyofisikacc@gmail.com",
+      "logo": "http://zyofisik.herokuapp.com/static/images/zyofisik.png",
+      "slogan": "Your Personal AI trainer",
+      "image": "http://zyofisik.herokuapp.com/static/images/zyofisik.png"
+    }
+  </script>
+</html>

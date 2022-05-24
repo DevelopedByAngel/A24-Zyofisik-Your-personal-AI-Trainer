@@ -1,0 +1,115 @@
+body {
+  background: var(--dark);
+}
+.exercise-main {
+  width: 100%;
+  overflow-x: hidden;
+}
+.exercise-main .header {
+  padding: 2rem 2rem 1rem 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.exercise-main .heading {
+  font-size: 2rem;
+  font-family: "Montserrat", sans-serif;
+  text-decoration: underline;
+  color: white;
+  background: var(--dark);
+  height: 10vh;
+  margin-left: 5rem;
+}
+
+.exercise-main .header #filter-form {
+  display: flex;
+  flex-direction: row;
+  height: 2rem;
+  border-bottom: 2px solid white;
+}
+.exercise-main .header #filter {
+  background: rgba(255, 255, 255, 0);
+  height: 2rem;
+  width: 10rem;
+  color: var(--secondary);
+}
+.exercise-main .header #filter:focus {
+  width: 25rem;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.exercise-main .header #after {
+  height: 1.6rem;
+  padding: 0.2rem 1rem;
+  filter: invert(1);
+  background: rgba(0, 0, 0, 0.3);
+  box-sizing: padding-box;
+}
+.exercise-main .exercise-menu {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+}
+.exercise-main .exercise-menu .column {
+  width: 25vw;
+}
+.exercise-main .exercise-menu .imgContainer {
+  height: 30vw;
+  background: rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+}
+.exercise-main .exercise-menu .cell {
+  margin: 2rem 0rem;
+  border: 0px solid;
+  border-radius: 0.5rem;
+  box-shadow: 10px 10px 5px 0px rgba(241, 250, 238, 0.5);
+  transition: width 0s linear, all 0.25s linear;
+  overflow: hidden;
+  position: relative;
+}
+.exercise-main .exercise-menu .cell img {
+  width: 25vw;
+  display: none;
+}
+.exercise-main .exercise-menu .cell .about {
+  padding: 0.5rem;
+  font-size: 1.1rem;
+  width: var(20vw-1rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--background);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  clip-path: polygon(0% 75%, 0% 100%, 100% 100%, 100% 75%, 50% 0%);
+  box-shadow: 0px 0px 0px 0px var(--background);
+  z-index: 1;
+  color: var(--background);
+}
+.exercise-main .exercise-menu .cell:hover {
+  box-shadow: 7px 7px 5px 0px rgba(241, 250, 238, 0.2);
+}
+.exercise-main .exercise-menu .cell:hover .about {
+  clip-path: polygon(0% -350%, 0% 100%, 100% 100%, 100% -350%, 50% -350%);
+  box-shadow: 0px 0px 50px 1px var(--background);
+  z-index: 3;
+  color: var(--text);
+}
+.exercise-main .exercise-menu .cell:hover .imgContainer img {
+  filter: drop-shadow(0px 0px 5px white);
+  transform: scale(0.9);
+}
+.exercise-main .exercise-menu .cell:active {
+  transform: scale(0.9);
+}
+.exercise-main .exercise-menu .cell .about .name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: inherit;
+}

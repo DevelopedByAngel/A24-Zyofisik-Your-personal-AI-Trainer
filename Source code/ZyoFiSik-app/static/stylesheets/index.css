@@ -1,0 +1,116 @@
+#mobile-view {
+  display: none;
+}
+body {
+  font-family: "Josefin Sans", sans-serif;
+}
+.intro {
+  height: 100vh;
+  background: var(--light);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.intro .logo-div {
+  padding-right: 10vh;
+  background: #251c38;
+  clip-path: polygon(0% 0%, 0% 100%, 70% 100%, 100% 0%);
+}
+.intro .logo {
+  width: 100vh;
+  height: 100vh;
+  transform: translateX(-10vh);
+}
+.intro .about-cover {
+  height: 100vh;
+  margin: 10vh;
+  display: flex;
+  align-items: center;
+}
+.intro .about-div {
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.intro .about-div .title .name {
+  font-size: 4rem;
+  color: #251c38;
+  margin: 0.5rem 0rem 1rem 0rem;
+  font-family: "Montserrat", sans-serif;
+}
+.intro .about-div .phrase {
+  font-family: "Lora", serif;
+  border-left: 2px solid var(--dark);
+  padding-left: 0.5rem;
+  font-size: 1.2rem;
+}
+.intro .about-div .about {
+  font-size: 1.3rem;
+  margin: 2rem 0rem 0rem 0rem;
+  padding-right: 2rem;
+}
+.features {
+  background: var(--background);
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  padding: 5vh;
+  align-items: center;
+}
+.features .heading {
+  font-size: 3rem;
+  font-family: "Montserrat", sans-serif;
+  text-decoration: underline;
+}
+.features .feature-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 10vh;
+}
+.features .feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.features .feature img {
+  width: 40vh;
+  border: 2px solid white;
+  box-shadow: -5px -2px 15px 2px rgba(0, 0, 0, 0.5);
+  border-radius: 0.5rem;
+}
+.features .feature img:hover {
+  transform: scale(1.1);
+}
+.features .feature img:active {
+  transform: scale(1);
+}
+.features .feature .about-feature-div {
+  width: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 4rem 0vh 0vh 0vh;
+}
+.features .feature .title-feature {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  width: 40vh;
+  text-align: center;
+}
+.features .feature .about-feature {
+  width: 40vh;
+}
+
+@media only screen and (max-width: 600px) {
+  body * {
+    display: none !important;
+  }
+  #mobile-view {
+    display: block !important;
+  }
+}
